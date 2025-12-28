@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap');
 
 @layer base {
   :root {
@@ -131,6 +131,114 @@
     transform: translateY(-2px);
   }
 
+  /* Enhanced Navigation Styles */
+  .nav-glass-transparent {
+    @apply bg-transparent backdrop-blur-none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav-glass-scrolled {
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px -4px hsl(220 20% 4% / 0.1);
+  }
+
+  .nav-link-enhanced {
+    @apply relative text-muted-foreground font-medium transition-all duration-300 px-3 py-2 rounded-lg;
+    background: transparent;
+  }
+
+  .nav-link-enhanced:hover {
+    @apply text-foreground;
+    background: hsl(var(--secondary) / 0.5);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-link-enhanced::after {
+    content: '';
+    @apply absolute -bottom-1 left-3 right-3 h-0.5 bg-primary transition-all duration-300 rounded-full scale-x-0;
+  }
+
+  .nav-link-enhanced:hover::after,
+  .nav-link-enhanced.active::after {
+    @apply scale-x-100;
+  }
+
+  .nav-link-enhanced.active {
+    @apply text-foreground;
+    background: hsl(var(--primary) / 0.1);
+  }
+
+  /* Mobile Navigation Styles */
+  .mobile-nav-container {
+    @apply relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-top: none;
+    backdrop-filter: blur(16px);
+    border-radius: 0 0 1rem 1rem;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  .mobile-nav-link {
+    @apply block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 transform;
+    background: transparent;
+    animation: slideInFromTop 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .mobile-nav-link:hover {
+    @apply text-foreground;
+    background: hsl(var(--secondary) / 0.7);
+    transform: translateX(4px);
+  }
+
+  .mobile-nav-link.active {
+    @apply text-primary;
+    background: hsl(var(--primary) / 0.15);
+    border-left: 3px solid hsl(var(--primary));
+  }
+
+  .mobile-nav-link.active:hover {
+    background: hsl(var(--primary) / 0.2);
+  }
+
+  /* Theme Toggle Enhanced Styles */
+  .theme-toggle-btn {
+    @apply relative h-9 w-9 rounded-full transition-all duration-300 border border-border/50;
+    background: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(8px);
+  }
+
+  .theme-toggle-btn:hover {
+    @apply border-primary/30;
+    background: hsl(var(--secondary) / 0.8);
+    transform: scale(1.05);
+  }
+
+  .theme-icon {
+    @apply h-4 w-4 transition-all duration-500;
+  }
+
+  .theme-icon-sun {
+    @apply rotate-0 scale-100;
+  }
+
+  .dark .theme-icon-sun {
+    @apply -rotate-90 scale-0;
+  }
+
+  .theme-icon-moon {
+    @apply absolute rotate-90 scale-0;
+  }
+
+  .dark .theme-icon-moon {
+    @apply rotate-0 scale-100;
+  }
+
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-text);
@@ -233,6 +341,17 @@
       opacity: 0;
     }
   }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 @layer utilities {
@@ -264,6 +383,31 @@
   .delay-300 { animation-delay: 300ms; }
   .delay-400 { animation-delay: 400ms; }
   .delay-500 { animation-delay: 500ms; }
+
+  /* Mobile-specific utilities */
+  @media (max-width: 768px) {
+    .mobile-nav-container {
+      @apply shadow-2xl;
+    }
+    
+    .theme-toggle-btn {
+      @apply h-8 w-8;
+    }
+    
+    .theme-icon {
+      @apply h-3.5 w-3.5;
+    }
+  }
+
+  /* Ensure proper z-index stacking */
+  .nav-glass-scrolled,
+  .nav-glass-transparent {
+    z-index: 1000;
+  }
+
+  .mobile-nav-container {
+    z-index: 999;
+  }
 }
 
 @keyframes float {
